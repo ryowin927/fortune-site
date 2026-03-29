@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    /* 1080x1080 Instagram向け正方形テンプレート */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1080px;
+      height: 1080px;
+      background: linear-gradient(135deg, #1a0533 0%, #2d1b69 50%, #1a0533 100%);
+      font-family: 'Noto Sans JP', sans-serif;
+      color: #e8daf0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 背景の星 */
+    .stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .star { position: absolute; background: white; border-radius: 50%; }
+
+    /* ヘッダー */
+    .header {
+      text-align: center;
+      padding: 50px 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .site-name {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, #f0c75e, #fce4a8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.15em;
+    }
+    .date {
+      font-size: 1.4rem;
+      color: #c9a0dc;
+      margin-top: 8px;
+      letter-spacing: 0.1em;
+    }
+    .title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 2.2rem;
+      color: #f0c75e;
+      margin-top: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    /* ランキング */
+    .ranking {
+      padding: 16px 60px;
+      position: relative;
+      z-index: 1;
+    }
+    .rank-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      margin-bottom: 4px;
+      border-radius: 12px;
+      background: rgba(45, 27, 105, 0.4);
+    }
+    .rank-item.top3 {
+      background: rgba(240, 199, 94, 0.1);
+      border: 1px solid rgba(240, 199, 94, 0.2);
+    }
+    .rank-num {
+      font-size: 1.4rem;
+      font-weight: 900;
+      width: 50px;
+      text-align: center;
+      color: #a88fbf;
+    }
+    .rank-item.top3 .rank-num { color: #f0c75e; }
+    .rank-emoji { font-size: 1.6rem; margin-right: 12px; }
+    .rank-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      flex: 1;
+    }
+    .rank-stars {
+      font-size: 1.1rem;
+      color: #f0c75e;
+      letter-spacing: 2px;
+    }
+
+    /* フッター */
+    .footer {
+      text-align: center;
+      padding: 16px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-text {
+      font-size: 1rem;
+      color: #a88fbf;
+      letter-spacing: 0.1em;
+    }
+    .footer-url {
+      font-size: 0.9rem;
+      color: #c9a0dc;
+      margin-top: 4px;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+
+  <div class="header">
+    <div class="site-name">星月占い館</div>
+    <div class="date" id="date"></div>
+    <div class="title">今日の星座運勢ランキング</div>
+  </div>
+
+  <div class="ranking" id="ranking"></div>
+
+  <div class="footer">
+    <div class="footer-text">詳しい占い結果はプロフィールのリンクから</div>
+    <div class="footer-url">@hoshizuki_fortune</div>
+  </div>
+
+  <script>
+    // 星の生成
+    const starsEl = document.getElementById('stars');
+    for (let i = 0; i < 60; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = Math.random() * 2.5 + 0.5;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.opacity = Math.random() * 0.5 + 0.2;
+      starsEl.appendChild(s);
+    }
+
+    // 日付
+    const now = new Date();
+    document.getElementById('date').textContent =
+      `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日（${'日月火水木金土'[now.getDay()]}）`;
+
+    // 星座データ
+    const signs = [
+      { name: '牡羊座', emoji: '♈' }, { name: '牡牛座', emoji: '♉' },
+      { name: '双子座', emoji: '♊' }, { name: '蟹座', emoji: '♋' },
+      { name: '獅子座', emoji: '♌' }, { name: '乙女座', emoji: '♍' },
+      { name: '天秤座', emoji: '♎' }, { name: '蠍座', emoji: '♏' },
+      { name: '射手座', emoji: '♐' }, { name: '山羊座', emoji: '♑' },
+      { name: '水瓶座', emoji: '♒' }, { name: '魚座', emoji: '♓' }
+    ];
+
+    // 日替わりシード（index.htmlと同じロジック）
+    function dailySeed(name) {
+      const d = new Date();
+      const s = `${name}-${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      let h = 0;
+      for (let i = 0; i < s.length; i++) { h = ((h << 5) - h) + s.charCodeAt(i); h |= 0; }
+      return Math.abs(h);
+    }
+
+    function getRating(name) {
+      const seed = dailySeed(name);
+      return (seed % 5) + 1;
+    }
+
+    // ランキング生成
+    const ranked = signs.map(s => ({ ...s, rating: getRating(s.name) }))
+      .sort((a, b) => b.rating - a.rating);
+
+    const container = document.getElementById('ranking');
+    ranked.forEach((sign, i) => {
+      const div = document.createElement('div');
+      div.className = 'rank-item' + (i < 3 ? ' top3' : '');
+      div.innerHTML = `
+        <div class="rank-num">${i + 1}</div>
+        <div class="rank-emoji">${sign.emoji}</div>
+        <div class="rank-name">${sign.name}</div>
+        <div class="rank-stars">${'★'.repeat(sign.rating)}${'☆'.repeat(5 - sign.rating)}</div>
+      `;
+      container.appendChild(div);
+    });
+  </script>
+</body>
+</html>

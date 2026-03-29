@@ -1,0 +1,1100 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星月占い館 | 無料タロット・数秘術であなたの運命を読み解く</title>
+  <meta name="description" content="完全無料のタロット占い・数秘術占い。生年月日から運命数を算出し、今日の運勢やあなたの本質を詳しく鑑定します。">
+  <meta name="keywords" content="占い,無料,タロット,数秘術,運勢,今日の運勢,恋愛運,仕事運">
+  <meta property="og:title" content="星月占い館 | 無料タロット・数秘術">
+  <meta property="og:description" content="完全無料のタロット占い・数秘術占い。あなたの運命を読み解きます。">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="ogp.png">
+  <!-- Google Analytics (GA4) — 測定IDを自分のものに差し替えてください -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a0533;
+      --secondary: #2d1b69;
+      --accent: #c9a0dc;
+      --gold: #f0c75e;
+      --gold-light: #fce4a8;
+      --text: #e8daf0;
+      --text-muted: #a88fbf;
+      --card-bg: rgba(45, 27, 105, 0.5);
+      --glass: rgba(255, 255, 255, 0.05);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--primary);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Stars background */
+    .stars {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    /* Layout */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 60px 0 40px;
+    }
+    .logo {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.1em;
+    }
+    .logo-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      letter-spacing: 0.2em;
+    }
+
+    /* Navigation tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 12px 28px;
+      border: 1px solid var(--accent);
+      border-radius: 30px;
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.95rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .tab-btn:hover, .tab-btn.active {
+      background: linear-gradient(135deg, var(--secondary), #4a2d8a);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 20px rgba(108, 60, 180, 0.4);
+    }
+
+    /* Sections */
+    .section {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    .section.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card style */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(201, 160, 220, 0.15);
+      border-radius: 20px;
+      padding: 36px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    h3 {
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    p { line-height: 1.8; margin-bottom: 12px; }
+
+    /* Form elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    input[type="date"], input[type="text"], select {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(201, 160, 220, 0.2);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 1rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: border-color 0.3s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #6c3cb0, #9b59b6, #6c3cb0);
+      background-size: 200% 200%;
+      border: none;
+      border-radius: 14px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: 'Noto Sans JP', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s;
+      animation: shimmer 3s ease infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(108, 60, 180, 0.5);
+    }
+
+    /* Tarot cards */
+    .tarot-spread {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 30px 0;
+    }
+    .tarot-card {
+      width: 120px;
+      height: 200px;
+      perspective: 600px;
+      cursor: pointer;
+    }
+    .tarot-card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .tarot-card.flipped .tarot-card-inner {
+      transform: rotateY(180deg);
+    }
+    .tarot-card-front, .tarot-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 10px;
+    }
+    .tarot-card-front {
+      background: linear-gradient(135deg, #2d1b69, #1a0533);
+      border: 2px solid var(--gold);
+      flex-direction: column;
+    }
+    .tarot-card-front::before {
+      content: '★';
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .tarot-card-front::after {
+      content: 'タップして引く';
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .tarot-card-back {
+      background: linear-gradient(135deg, #4a2d8a, #6c3cb0);
+      border: 2px solid var(--gold);
+      transform: rotateY(180deg);
+      flex-direction: column;
+      font-weight: 700;
+    }
+    .tarot-card-back .card-emoji {
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+    }
+    .tarot-card-back .card-name {
+      font-size: 0.8rem;
+      color: var(--gold-light);
+    }
+
+    .tarot-card:hover .tarot-card-inner {
+      transform: translateY(-5px);
+    }
+    .tarot-card.flipped:hover .tarot-card-inner {
+      transform: rotateY(180deg) translateY(-5px);
+    }
+
+    /* Result */
+    .result-box {
+      background: linear-gradient(135deg, rgba(45, 27, 105, 0.8), rgba(26, 5, 51, 0.9));
+      border: 1px solid var(--gold);
+      border-radius: 16px;
+      padding: 30px;
+      margin-top: 24px;
+      display: none;
+    }
+    .result-box.show { display: block; animation: fadeIn 0.6s ease; }
+    .result-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .result-number {
+      font-size: 3rem;
+      font-weight: 900;
+      text-align: center;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .trait-tags {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .trait-tag {
+      padding: 6px 16px;
+      background: rgba(240, 199, 94, 0.15);
+      border: 1px solid rgba(240, 199, 94, 0.3);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--gold-light);
+    }
+
+    /* Fortune bars */
+    .fortune-item {
+      margin-bottom: 14px;
+    }
+    .fortune-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+    .fortune-bar {
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .fortune-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      transition: width 1s ease;
+      width: 0;
+    }
+
+    /* Affiliate banner area */
+    .affiliate-banner {
+      background: linear-gradient(135deg, rgba(108, 60, 180, 0.3), rgba(155, 89, 182, 0.2));
+      border: 1px dashed var(--accent);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin: 30px 0;
+    }
+    .affiliate-banner h3 {
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .affiliate-banner p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .btn-affiliate {
+      display: inline-block;
+      padding: 14px 36px;
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Noto Sans JP', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn-affiliate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+    }
+
+    /* LINE CTA */
+    .line-cta {
+      background: linear-gradient(135deg, #06c755, #04a847);
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      margin: 30px 0;
+    }
+    .line-cta h3 {
+      color: white;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .line-cta p {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+    .btn-line {
+      display: inline-block;
+      padding: 14px 36px;
+      background: white;
+      border-radius: 12px;
+      color: #06c755;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn-line:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6, 199, 85, 0.3);
+    }
+
+    /* SNS Share */
+    .share-section {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .share-section p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .share-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    .share-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+    .share-btn:hover { transform: translateY(-3px); }
+    .share-x { background: #000; }
+    .share-insta { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .share-tiktok { background: #010101; border: 1px solid #333; }
+    .share-line-btn { background: #06c755; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      border-top: 1px solid rgba(201, 160, 220, 0.1);
+      margin-top: 40px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* Today's fortune (top section) */
+    .today-fortune {
+      text-align: center;
+      padding: 20px;
+      background: var(--glass);
+      border-radius: 16px;
+      margin-bottom: 30px;
+    }
+    .today-fortune .zodiac-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .zodiac-item {
+      padding: 12px 8px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+    .zodiac-item:hover {
+      background: rgba(108, 60, 180, 0.4);
+      transform: translateY(-2px);
+    }
+    .zodiac-item .emoji { font-size: 1.5rem; }
+    .zodiac-item .name { font-size: 0.75rem; margin-top: 4px; color: var(--text-muted); }
+    .zodiac-item .stars-rating { font-size: 0.7rem; color: var(--gold); margin-top: 2px; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .logo { font-size: 1.8rem; }
+      .card { padding: 24px; }
+      .tarot-card { width: 100px; height: 170px; }
+      .today-fortune .zodiac-grid { grid-template-columns: repeat(3, 1fr); }
+      .tabs { gap: 8px; }
+      .tab-btn { padding: 10px 20px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+  <header>
+    <div class="logo">星月占い館</div>
+    <div class="logo-sub">HOSHIZUKI FORTUNE HOUSE</div>
+  </header>
+
+  <!-- Navigation -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="home">今日の運勢</button>
+    <button class="tab-btn" data-tab="numerology">数秘術占い</button>
+    <button class="tab-btn" data-tab="tarot">タロット占い</button>
+  </div>
+
+  <!-- ===== HOME: Today's Fortune ===== -->
+  <div class="section active" id="home">
+    <div class="today-fortune">
+      <h2>今日の12星座占い</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted);" id="today-date"></p>
+      <div class="zodiac-grid" id="zodiac-grid"></div>
+    </div>
+
+    <div class="result-box" id="zodiac-result" style="display:none;">
+      <div class="result-title" id="zodiac-result-title"></div>
+      <div id="zodiac-result-content"></div>
+      <div class="share-section" style="margin-top:20px;">
+        <p>結果をシェアしよう</p>
+        <div class="share-buttons">
+          <a class="share-btn share-x" id="share-x-zodiac" href="#" target="_blank">𝕏</a>
+          <a class="share-btn share-line-btn" id="share-line-zodiac" href="#" target="_blank">L</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Affiliate Banner -->
+    <div class="affiliate-banner">
+      <h3>もっと深く知りたいあなたへ</h3>
+      <p>プロの占い師があなただけの鑑定を行います。<br>初回10分間無料で本格鑑定を体験！</p>
+      <a href="#" class="btn-affiliate" id="affiliate-link-1">無料で本格鑑定を試す →</a>
+      <p style="font-size:0.7rem; margin-top:10px; color:var(--text-muted);">※PR 提携先の占いサービスへ遷移します</p>
+    </div>
+  </div>
+
+  <!-- ===== NUMEROLOGY ===== -->
+  <div class="section" id="numerology">
+    <div class="card">
+      <h2>数秘術で読み解くあなたの本質</h2>
+      <p style="text-align:center; color:var(--text-muted); margin-bottom:24px;">
+        生年月日を入力するだけで、あなたの運命数・性格・相性がわかります
+      </p>
+      <div class="form-group">
+        <label>生年月日を入力してください</label>
+        <input type="date" id="birth-date" value="1990-01-01">
+      </div>
+      <button class="btn-primary" id="numerology-btn">運命数を占う</button>
+    </div>
+
+    <div class="result-box" id="numerology-result"></div>
+
+    <!-- Affiliate -->
+    <div class="affiliate-banner">
+      <h3>数秘術をもっと深く知る</h3>
+      <p>あなたの運命数に基づいた詳細鑑定を、プロの数秘術師が行います</p>
+      <a href="#" class="btn-affiliate" id="affiliate-link-2">詳細鑑定を申し込む →</a>
+      <p style="font-size:0.7rem; margin-top:10px; color:var(--text-muted);">※PR 提携先の占いサービスへ遷移します</p>
+    </div>
+  </div>
+
+  <!-- ===== TAROT ===== -->
+  <div class="section" id="tarot">
+    <div class="card">
+      <h2>ワンオラクル・タロット</h2>
+      <p style="text-align:center; color:var(--text-muted); margin-bottom:12px;">
+        心を落ち着けて、気になるカードを1枚選んでください
+      </p>
+      <div class="tarot-spread" id="tarot-spread"></div>
+    </div>
+
+    <div class="result-box" id="tarot-result"></div>
+
+    <!-- Affiliate -->
+    <div class="affiliate-banner">
+      <h3>本格タロット鑑定を受けてみませんか？</h3>
+      <p>経験豊富な占い師が、あなたの状況に合わせた詳細リーディングを行います</p>
+      <a href="#" class="btn-affiliate" id="affiliate-link-3">初回無料鑑定はこちら →</a>
+      <p style="font-size:0.7rem; margin-top:10px; color:var(--text-muted);">※PR 提携先の占いサービスへ遷移します</p>
+    </div>
+  </div>
+
+  <!-- LINE CTA (common) -->
+  <div class="line-cta">
+    <h3>毎朝の運勢をLINEでお届け</h3>
+    <p>LINE公式アカウントを友だち追加すると、<br>毎朝あなたの今日の運勢が届きます（無料）</p>
+    <a href="#" class="btn-line" id="line-add">友だち追加する</a>
+  </div>
+
+  <!-- SNS Share -->
+  <div class="share-section">
+    <p>フォローして最新の占い情報をチェック</p>
+    <div class="share-buttons">
+      <a class="share-btn share-x" href="#" target="_blank">𝕏</a>
+      <a class="share-btn share-insta" href="#" target="_blank">IG</a>
+      <a class="share-btn share-tiktok" href="#" target="_blank">TT</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 星月占い館 All Rights Reserved.</p>
+    <p style="margin-top:8px;">
+      <a href="privacy.html">プライバシーポリシー</a> ｜
+      <a href="privacy.html#4">免責事項</a> ｜
+      <a href="mailto:contact@example.com">お問い合わせ</a>
+    </p>
+    <p style="margin-top:8px;">※占い結果はエンターテインメントです。重要な判断の際は専門家にご相談ください。</p>
+  </footer>
+</div>
+
+<script>
+// ========== サイトURL（GitHub Pages公開後に差し替え） ==========
+const SITE_URL = 'https://your-username.github.io/fortune-site/';
+
+// ========== Stars Background ==========
+(function createStars() {
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 100; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+    star.style.animationDelay = Math.random() * 3 + 's';
+    container.appendChild(star);
+  }
+})();
+
+// ========== Tab Navigation ==========
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ========== Today's Date ==========
+const now = new Date();
+const dateStr = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日（${'日月火水木金土'[now.getDay()]}）`;
+document.getElementById('today-date').textContent = dateStr;
+
+// ========== 12 Zodiac Signs ==========
+const zodiacSigns = [
+  { name: '牡羊座', emoji: '♈', period: '3/21-4/19' },
+  { name: '牡牛座', emoji: '♉', period: '4/20-5/20' },
+  { name: '双子座', emoji: '♊', period: '5/21-6/21' },
+  { name: '蟹座', emoji: '♋', period: '6/22-7/22' },
+  { name: '獅子座', emoji: '♌', period: '7/23-8/22' },
+  { name: '乙女座', emoji: '♍', period: '8/23-9/22' },
+  { name: '天秤座', emoji: '♎', period: '9/23-10/23' },
+  { name: '蠍座', emoji: '♏', period: '10/24-11/22' },
+  { name: '射手座', emoji: '♐', period: '11/23-12/21' },
+  { name: '山羊座', emoji: '♑', period: '12/22-1/19' },
+  { name: '水瓶座', emoji: '♒', period: '1/20-2/18' },
+  { name: '魚座', emoji: '♓', period: '2/19-3/20' }
+];
+
+const zodiacFortunes = {
+  '牡羊座': {
+    overall: 4, love: 3, work: 5, money: 4,
+    message: '行動力が冴える一日。新しい挑戦を始めるなら今日がベストです。直感を信じて思い切って踏み出しましょう。',
+    lucky: { color: '赤', number: 7, item: 'レザーのアクセサリー' }
+  },
+  '牡牛座': {
+    overall: 3, love: 4, work: 3, money: 5,
+    message: '金運が好調です。以前から気になっていた投資や貯蓄の計画を見直すのに良いタイミング。堅実な判断が吉。',
+    lucky: { color: 'グリーン', number: 2, item: '天然石のリング' }
+  },
+  '双子座': {
+    overall: 5, love: 5, work: 4, money: 3,
+    message: 'コミュニケーション運が最高潮！新しい出会いや、大切な人との関係が深まる暗示があります。言葉に愛を込めて。',
+    lucky: { color: 'イエロー', number: 5, item: '本や手紙' }
+  },
+  '蟹座': {
+    overall: 3, love: 4, work: 3, money: 3,
+    message: '家庭や身近な人との時間を大切にすると運気アップ。手料理でおもてなしすると良い流れが生まれます。',
+    lucky: { color: 'シルバー', number: 9, item: 'パール' }
+  },
+  '獅子座': {
+    overall: 4, love: 3, work: 5, money: 4,
+    message: '仕事運が絶好調。リーダーシップを発揮する場面が訪れそう。自信を持って提案すれば周囲も味方になります。',
+    lucky: { color: 'ゴールド', number: 1, item: 'サングラス' }
+  },
+  '乙女座': {
+    overall: 4, love: 3, work: 4, money: 4,
+    message: '細やかな気配りが評価される日。普段気づかない小さな変化を見逃さないで。健康管理にも目を向けて。',
+    lucky: { color: 'ネイビー', number: 6, item: 'ハーブティー' }
+  },
+  '天秤座': {
+    overall: 5, love: 5, work: 3, money: 4,
+    message: '美的センスが冴える日。ファッションやインテリアの見直しが吉。恋愛では理想のバランスが見つかりそう。',
+    lucky: { color: 'ピンク', number: 3, item: 'フラワーアレンジメント' }
+  },
+  '蠍座': {
+    overall: 3, love: 4, work: 4, money: 3,
+    message: '深い洞察力が武器になる日。表面だけでなく物事の本質を見抜くことで大きなチャンスをつかめます。',
+    lucky: { color: 'ワインレッド', number: 8, item: 'アロマキャンドル' }
+  },
+  '射手座': {
+    overall: 4, love: 3, work: 4, money: 5,
+    message: '冒険心が幸運を呼ぶ日。いつもと違うルートを通ったり、新しいお店に入ると思わぬ発見がありそう。',
+    lucky: { color: 'パープル', number: 4, item: '旅行雑誌' }
+  },
+  '山羊座': {
+    overall: 4, love: 3, work: 5, money: 4,
+    message: '目標に向かってコツコツ進む姿が周囲の信頼を集めます。長期計画の見直しにも最適な日です。',
+    lucky: { color: 'ブラウン', number: 10, item: '革の手帳' }
+  },
+  '水瓶座': {
+    overall: 5, love: 4, work: 4, money: 3,
+    message: '独創的なアイデアが湧き出る日。周囲と違う発想こそがあなたの武器。SNSでの発信も好反応の暗示。',
+    lucky: { color: 'アクアブルー', number: 11, item: 'デジタルガジェット' }
+  },
+  '魚座': {
+    overall: 3, love: 5, work: 3, money: 3,
+    message: '直感と感受性が高まる日。アートや音楽に触れると心が潤います。大切な人には素直な気持ちを伝えて。',
+    lucky: { color: 'ラベンダー', number: 12, item: 'オルゴール' }
+  }
+};
+
+// Seed-based daily randomization
+function dailySeed(signName) {
+  const today = new Date();
+  const seed = today.getFullYear() * 10000 + (today.getMonth()+1) * 100 + today.getDate();
+  let hash = 0;
+  for (let i = 0; i < signName.length; i++) hash = ((hash << 5) - hash) + signName.charCodeAt(i);
+  return Math.abs(hash + seed);
+}
+
+function getDailyRating(signName) {
+  const s = dailySeed(signName);
+  return (s % 5) + 1;
+}
+
+const grid = document.getElementById('zodiac-grid');
+zodiacSigns.forEach(sign => {
+  const rating = getDailyRating(sign.name);
+  const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+  const item = document.createElement('div');
+  item.className = 'zodiac-item';
+  item.innerHTML = `<div class="emoji">${sign.emoji}</div><div class="name">${sign.name}</div><div class="stars-rating">${stars}</div>`;
+  item.addEventListener('click', () => showZodiacResult(sign.name));
+  grid.appendChild(item);
+});
+
+function showZodiacResult(name) {
+  const fortune = zodiacFortunes[name];
+  const sign = zodiacSigns.find(s => s.name === name);
+  const resultBox = document.getElementById('zodiac-result');
+  document.getElementById('zodiac-result-title').textContent = `${sign.emoji} ${name}の今日の運勢`;
+
+  const starsHTML = (n) => '★'.repeat(n) + '☆'.repeat(5-n);
+  document.getElementById('zodiac-result-content').innerHTML = `
+    <div style="margin-bottom:16px;">
+      <div class="fortune-item"><div class="fortune-label"><span>総合運</span><span>${starsHTML(fortune.overall)}</span></div><div class="fortune-bar"><div class="fortune-fill" style="width:${fortune.overall*20}%"></div></div></div>
+      <div class="fortune-item"><div class="fortune-label"><span>恋愛運</span><span>${starsHTML(fortune.love)}</span></div><div class="fortune-bar"><div class="fortune-fill" style="width:${fortune.love*20}%"></div></div></div>
+      <div class="fortune-item"><div class="fortune-label"><span>仕事運</span><span>${starsHTML(fortune.work)}</span></div><div class="fortune-bar"><div class="fortune-fill" style="width:${fortune.work*20}%"></div></div></div>
+      <div class="fortune-item"><div class="fortune-label"><span>金運</span><span>${starsHTML(fortune.money)}</span></div><div class="fortune-bar"><div class="fortune-fill" style="width:${fortune.money*20}%"></div></div></div>
+    </div>
+    <p>${fortune.message}</p>
+    <div style="background:rgba(240,199,94,0.1);border-radius:12px;padding:16px;margin-top:16px;">
+      <p style="font-size:0.9rem;"><strong style="color:var(--gold);">ラッキーカラー：</strong>${fortune.lucky.color}</p>
+      <p style="font-size:0.9rem;"><strong style="color:var(--gold);">ラッキーナンバー：</strong>${fortune.lucky.number}</p>
+      <p style="font-size:0.9rem;margin-bottom:0;"><strong style="color:var(--gold);">ラッキーアイテム：</strong>${fortune.lucky.item}</p>
+    </div>
+  `;
+
+  resultBox.style.display = 'block';
+  resultBox.classList.add('show');
+  resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  // Update share links
+  const text = encodeURIComponent(`${name}の今日の運勢は${starsHTML(fortune.overall)}！\n${fortune.message}\n\n${SITE_URL}\n#星月占い館 #今日の運勢 #${name}`);
+  document.getElementById('share-x-zodiac').href = `https://twitter.com/intent/tweet?text=${text}`;
+  document.getElementById('share-line-zodiac').href = `https://social-plugins.line.me/lineit/share?text=${text}`;
+
+  // Animate bars
+  setTimeout(() => {
+    resultBox.querySelectorAll('.fortune-fill').forEach(bar => {
+      bar.style.width = bar.style.width;
+    });
+  }, 100);
+}
+
+// ========== Numerology ==========
+const numerologyData = {
+  1: {
+    title: '運命数 1 — リーダーの魂',
+    traits: ['リーダーシップ', '独立心', 'パイオニア精神', '決断力'],
+    description: 'あなたは生まれながらのリーダーです。独立心が強く、自分の道を自分で切り開く力を持っています。新しいことを始めるのが得意で、周囲を引っ張っていくカリスマ性があります。',
+    love: '恋愛では主導権を握りたいタイプ。対等に議論できるパートナーと最高の関係を築けます。',
+    work: '起業家やフリーランス、管理職として能力を発揮。自由に動ける環境が最適です。',
+    compatibility: [3, 5, 9],
+    fortune: { overall: 85, love: 70, work: 90, money: 80 }
+  },
+  2: {
+    title: '運命数 2 — 調和の天使',
+    traits: ['協調性', '共感力', '繊細さ', '外交力'],
+    description: 'あなたは人と人をつなぐ架け橋のような存在です。繊細な感受性を持ち、相手の気持ちを察する能力に長けています。チームワークを大切にし、周囲に安心感を与えます。',
+    love: '深い絆を求めるロマンチスト。相手の気持ちに寄り添える包容力が魅力です。',
+    work: 'カウンセラーや教師、人事など人と関わる仕事で輝きます。サポート役として真価を発揮。',
+    compatibility: [4, 6, 8],
+    fortune: { overall: 75, love: 90, work: 70, money: 75 }
+  },
+  3: {
+    title: '運命数 3 — 創造の星',
+    traits: ['創造力', '表現力', '楽観主義', '社交性'],
+    description: 'あなたは天性のクリエイターです。豊かな想像力と表現力で周囲を魅了します。明るくポジティブなエネルギーは、あなたの周りに自然と人を集めます。',
+    love: '楽しさを重視する恋愛スタイル。ユーモアのあるパートナーとの相性が抜群です。',
+    work: 'アーティスト、デザイナー、エンターテイナーとして才能を発揮。自己表現できる環境が鍵。',
+    compatibility: [1, 5, 7],
+    fortune: { overall: 80, love: 85, work: 75, money: 70 }
+  },
+  4: {
+    title: '運命数 4 — 安定の柱',
+    traits: ['堅実さ', '忍耐力', '計画性', '誠実さ'],
+    description: 'あなたは信頼と安定の象徴です。コツコツと努力を積み重ね、確実に目標を達成する力を持っています。計画的で責任感が強く、周囲からの信頼は絶大です。',
+    love: '一途で誠実な恋愛をする人。長期的な関係を大切にし、安定したパートナーシップを築きます。',
+    work: 'エンジニア、建築士、経理など正確さが求められる仕事で力を発揮。着実にキャリアを築きます。',
+    compatibility: [2, 6, 8],
+    fortune: { overall: 80, love: 75, work: 85, money: 90 }
+  },
+  5: {
+    title: '運命数 5 — 自由の風',
+    traits: ['冒険心', '適応力', '好奇心', '多才'],
+    description: 'あなたは自由を愛する冒険家です。変化を恐れず、むしろ楽しむことができる稀有な才能の持ち主。多方面に興味を持ち、どんな環境にも適応できる柔軟性があります。',
+    love: '刺激的な恋愛を好みますが、理解ある相手となら深い絆も。束縛は苦手です。',
+    work: '旅行業、ジャーナリスト、セールスなど変化のある仕事が天職。ルーティンワークは不向き。',
+    compatibility: [1, 3, 7],
+    fortune: { overall: 75, love: 80, work: 75, money: 70 }
+  },
+  6: {
+    title: '運命数 6 — 愛の守護者',
+    traits: ['献身的', '責任感', '美意識', '家庭的'],
+    description: 'あなたは愛と美の守護者です。家族や大切な人のために尽くすことに喜びを感じます。美的センスに優れ、調和のとれた環境を作り出す才能があります。',
+    love: '深い愛情を注ぐ恋愛をする人。家庭を大切にし、パートナーを全力でサポートします。',
+    work: 'デザイナー、セラピスト、保育士など人を癒す仕事で活躍。美に関わる分野も適性あり。',
+    compatibility: [2, 4, 9],
+    fortune: { overall: 85, love: 95, work: 75, money: 80 }
+  },
+  7: {
+    title: '運命数 7 — 探究の賢者',
+    traits: ['知性', '直感力', '神秘性', '分析力'],
+    description: 'あなたは深い知性と鋭い直感を兼ね備えた探究者です。物事の本質を見抜く力があり、精神世界や哲学にも深い関心を持ちます。一人の時間を大切にします。',
+    love: '精神的なつながりを重視。知的な会話ができるパートナーとの相性が最高です。',
+    work: '研究者、アナリスト、哲学者として真価を発揮。深く考える仕事に向いています。',
+    compatibility: [3, 5, 9],
+    fortune: { overall: 80, love: 70, work: 85, money: 75 }
+  },
+  8: {
+    title: '運命数 8 — 豊穣の王',
+    traits: ['野心', '実行力', 'ビジネスセンス', '権威'],
+    description: 'あなたは物質的な成功を手にする力を持った実力者です。優れたビジネスセンスと実行力で、大きな目標を達成します。権威と豊かさの象徴的存在です。',
+    love: 'パワフルな恋愛をする人。お互いを高め合えるパートナーとの関係が理想的です。',
+    work: '経営者、投資家、プロデューサーとして大成。スケールの大きな仕事で能力を発揮します。',
+    compatibility: [2, 4, 6],
+    fortune: { overall: 85, love: 70, work: 90, money: 95 }
+  },
+  9: {
+    title: '運命数 9 — 慈愛の光',
+    traits: ['慈悲深さ', '理想主義', '芸術性', '普遍的な愛'],
+    description: 'あなたは広い視野と深い慈悲心を持つ理想家です。人類全体への愛を抱き、世界をより良くしたいという強い使命感があります。芸術的な才能にも恵まれています。',
+    love: '無条件の愛を注げる人。相手の全てを受け入れる包容力が最大の魅力です。',
+    work: 'NPO、医療、芸術など社会貢献度の高い仕事で輝きます。国際的な活動にも適性あり。',
+    compatibility: [1, 6, 7],
+    fortune: { overall: 80, love: 85, work: 80, money: 70 }
+  },
+  11: {
+    title: 'マスターナンバー 11 — 霊感の導師',
+    traits: ['霊感', 'インスピレーション', 'カリスマ', '啓示'],
+    description: 'あなたはマスターナンバー11を持つ特別な存在です。強い直感とインスピレーションに導かれ、多くの人に影響を与えるカリスマ性を持っています。スピリチュアルな才能が際立ちます。',
+    love: '魂レベルでのつながりを求めます。ツインレイ的な運命の相手との出会いの暗示も。',
+    work: 'スピリチュアルリーダー、カウンセラー、アーティストとして多くの人を導きます。',
+    compatibility: [2, 4, 6],
+    fortune: { overall: 90, love: 85, work: 85, money: 75 }
+  },
+  22: {
+    title: 'マスターナンバー 22 — 建設の巨匠',
+    traits: ['実現力', 'ビジョン', '大志', '建設力'],
+    description: 'あなたはマスターナンバー22を持つ最も強力な数の持ち主です。壮大なビジョンを現実に変える力があり、世界を変えるような大きなプロジェクトを成功させる才能があります。',
+    love: '大きな愛を持つ人。パートナーと共に壮大な夢を追いかける関係が理想です。',
+    work: '大規模プロジェクトのリーダー、建築家、政治家など社会に大きなインパクトを与える仕事で真価を発揮。',
+    compatibility: [4, 6, 8],
+    fortune: { overall: 95, love: 80, work: 95, money: 90 }
+  },
+  33: {
+    title: 'マスターナンバー 33 — 宇宙の慈母',
+    traits: ['無償の愛', '癒し', '奉仕', '高次の意識'],
+    description: 'あなたはマスターナンバー33を持つ極めて稀な存在です。無償の愛と奉仕の精神に満ち、触れる人すべてを癒す力を持っています。最も高い精神性を持つ数です。',
+    love: '無条件の愛を体現する人。あなたの存在そのものが相手を癒します。',
+    work: 'ヒーラー、聖職者、慈善活動家として天命を全うします。人類の癒しに貢献する存在です。',
+    compatibility: [6, 9, 11],
+    fortune: { overall: 95, love: 95, work: 85, money: 80 }
+  }
+};
+
+function calcNumerology(dateStr) {
+  const digits = dateStr.replace(/-/g, '');
+  let sum = 0;
+  for (const d of digits) sum += parseInt(d);
+
+  // Check master numbers before reducing
+  if (sum === 11 || sum === 22 || sum === 33) return sum;
+
+  while (sum > 9) {
+    let newSum = 0;
+    for (const d of String(sum)) newSum += parseInt(d);
+    sum = newSum;
+    if (sum === 11 || sum === 22 || sum === 33) return sum;
+  }
+  return sum;
+}
+
+document.getElementById('numerology-btn').addEventListener('click', () => {
+  const date = document.getElementById('birth-date').value;
+  if (!date) return;
+
+  const num = calcNumerology(date);
+  const data = numerologyData[num];
+  const resultBox = document.getElementById('numerology-result');
+
+  resultBox.innerHTML = `
+    <div class="result-title">${data.title}</div>
+    <div class="result-number">${num}</div>
+    <div class="trait-tags">${data.traits.map(t => `<span class="trait-tag">${t}</span>`).join('')}</div>
+    <h3>あなたの本質</h3>
+    <p>${data.description}</p>
+    <h3>恋愛傾向</h3>
+    <p>${data.love}</p>
+    <h3>仕事・適職</h3>
+    <p>${data.work}</p>
+    <h3>相性の良い運命数</h3>
+    <p style="text-align:center; font-size:1.2rem; color:var(--gold);">${data.compatibility.join('・')}</p>
+    <h3>運勢</h3>
+    <div class="fortune-item"><div class="fortune-label"><span>総合運</span><span>${data.fortune.overall}%</span></div><div class="fortune-bar"><div class="fortune-fill" data-width="${data.fortune.overall}%"></div></div></div>
+    <div class="fortune-item"><div class="fortune-label"><span>恋愛運</span><span>${data.fortune.love}%</span></div><div class="fortune-bar"><div class="fortune-fill" data-width="${data.fortune.love}%"></div></div></div>
+    <div class="fortune-item"><div class="fortune-label"><span>仕事運</span><span>${data.fortune.work}%</span></div><div class="fortune-bar"><div class="fortune-fill" data-width="${data.fortune.work}%"></div></div></div>
+    <div class="fortune-item"><div class="fortune-label"><span>金運</span><span>${data.fortune.money}%</span></div><div class="fortune-bar"><div class="fortune-fill" data-width="${data.fortune.money}%"></div></div></div>
+    <div class="share-section" style="margin-top:24px;">
+      <p>結果をシェアしよう</p>
+      <div class="share-buttons">
+        <a class="share-btn share-x" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`私の運命数は【${num}】${data.title}\n${data.traits.join('・')}\n\nあなたも無料で占ってみて！\n${SITE_URL}\n#星月占い館 #数秘術 #運命数${num}`)}" target="_blank">𝕏</a>
+        <a class="share-btn share-line-btn" href="https://social-plugins.line.me/lineit/share?text=${encodeURIComponent(`私の運命数は【${num}】${data.title}！あなたも占ってみて！\n${SITE_URL}`)}" target="_blank">L</a>
+      </div>
+    </div>
+  `;
+
+  resultBox.classList.add('show');
+  resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  // Animate fortune bars
+  setTimeout(() => {
+    resultBox.querySelectorAll('.fortune-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width;
+    });
+  }, 200);
+});
+
+// ========== Tarot ==========
+const tarotCards = [
+  { name: '愚者', emoji: '🃏', upright: '新しい始まり、自由、冒険心。今こそ未知の世界に飛び込むとき。恐れを捨て、直感を信じて一歩を踏み出しましょう。', reversed: '無計画、軽率さへの警告。一度立ち止まって計画を練り直しましょう。衝動的な行動は控えて。' },
+  { name: '魔術師', emoji: '🎩', upright: 'あなたには全てを実現する力があります。才能とリソースを最大限に活用して。コミュニケーション能力が高まっている時期です。', reversed: '才能の無駄遣いに注意。集中力を取り戻し、一つのことに全力を注ぎましょう。' },
+  { name: '女教皇', emoji: '🌙', upright: '直感を信じてください。今は表面に見えない真実が隠されています。静かに内面の声に耳を傾ける時です。', reversed: '直感を無視していませんか？外部の情報に頼りすぎず、自分の内なる声を聴きましょう。' },
+  { name: '女帝', emoji: '👑', upright: '豊かさと愛が溢れる時期。創造性が高まり、美しいものを生み出す力があります。母性的な愛で周囲を包みましょう。', reversed: '自己犠牲のしすぎに注意。自分自身も大切にしてください。クリエイティブブロックを感じたら休息を。' },
+  { name: '皇帝', emoji: '🏛️', upright: 'リーダーシップを発揮する時。構造と秩序を作り、目標に向かって着実に進みましょう。権威ある立場からの力強い決断が吉。', reversed: '支配的になりすぎていませんか？柔軟性を持ち、他者の意見にも耳を傾けましょう。' },
+  { name: '法王', emoji: '📿', upright: '伝統と教えの中に答えがあります。信頼できる師や先輩のアドバイスを受け入れましょう。精神的な成長の時期です。', reversed: '型にはまりすぎず、自分なりの道を模索して。古い価値観に縛られる必要はありません。' },
+  { name: '恋人', emoji: '💕', upright: '大切な選択の時。愛と調和がテーマです。心の声に従って選択すれば、素晴らしい結果が待っています。', reversed: '迷いや不調和のサイン。本当に大切なものは何か、心に問いかけてみてください。' },
+  { name: '戦車', emoji: '⚡', upright: '強い意志で困難を乗り越える時。勝利と成功が目前です。自信を持って突き進みましょう。行動力が最大の武器になります。', reversed: '暴走に注意。方向性を見失っていませんか？一度冷静になって戦略を練り直しましょう。' },
+  { name: '力', emoji: '🦁', upright: '内なる強さが試される時。優しさと忍耐で困難を克服できます。本当の強さは力ではなく、心の余裕から生まれます。', reversed: '自信喪失に注意。あなたには十分な力があります。自分を信じて、焦らず進みましょう。' },
+  { name: '隠者', emoji: '🏔️', upright: '内省の時間が必要です。一人になって深く考えることで、大切な答えが見つかります。智慧は静けさの中に宿ります。', reversed: '孤立しすぎていませんか？信頼できる人に心を開いてみましょう。一人で抱え込まないで。' },
+  { name: '運命の輪', emoji: '🎡', upright: '大きな転機が訪れます！運命の流れに身を任せ、変化を恐れず受け入れましょう。チャンスの波に乗る時です。', reversed: '停滞感を感じても、それは一時的なもの。流れは必ず変わります。辛抱強く待ちましょう。' },
+  { name: '正義', emoji: '⚖️', upright: '公正さと真実がテーマ。正しい判断を下す力があります。因果応報、あなたの善い行いが報われる時です。', reversed: '不公平感を感じていますか？客観的に状況を見直し、バランスを取り戻しましょう。' },
+  { name: '吊るされた男', emoji: '🔄', upright: '視点を変える時。今の状況を違う角度から見ると、新しい発見があります。手放すことで得られるものがあります。', reversed: '犠牲にする必要はありません。無意味な我慢は手放して、自分らしい選択をしましょう。' },
+  { name: '死神', emoji: '🦋', upright: '終わりと始まり。古いものが去り、新しいステージが始まります。変容の時を恐れず、再生の力を信じて。', reversed: '変化への抵抗はありませんか？古いものにしがみつかず、新しい自分を受け入れましょう。' },
+  { name: '節制', emoji: '🌈', upright: 'バランスと調和の時。極端を避け、中庸の道を歩みましょう。忍耐と穏やかさが最良の結果を導きます。', reversed: 'バランスが崩れているサイン。生活リズムを整え、心身の調和を取り戻しましょう。' },
+  { name: '悪魔', emoji: '🔥', upright: '誘惑や依存に注意。しかし、欲望を理解することで自己成長につながります。本当に必要なものを見極めて。', reversed: '束縛からの解放！あなたを縛っていたものから自由になれる兆しです。勇気を持って断ち切って。' },
+  { name: '塔', emoji: '⚡', upright: '突然の変化やショックがありますが、それは再建のための破壊です。真実が明らかになり、本当に大切なものが残ります。', reversed: '変化を先延ばしにしていませんか？小さな修正を積み重ねて、大きな崩壊を防ぎましょう。' },
+  { name: '星', emoji: '⭐', upright: '希望と癒しの光が差し込みます。困難の後には必ず穏やかな時期が訪れます。夢を諦めないで、宇宙があなたを導いています。', reversed: '希望を失わないで。暗闇の中にも必ず光はあります。小さな幸せに目を向けて。' },
+  { name: '月', emoji: '🌕', upright: '不安や迷いがあっても、それは成長の過程です。直感を信じ、幻想に惑わされず真実を見つめましょう。夢からのメッセージに注目。', reversed: '混乱が晴れてきています。真実が見えてくる時期。不安から解放される日は近いです。' },
+  { name: '太陽', emoji: '☀️', upright: '最高の幸運カード！成功、喜び、活力に満ちた時期です。あなたの輝きが周囲も照らします。自信を持って進みましょう！', reversed: '少し控えめになっていませんか？あなたにはもっと輝く力があります。自分を解放して。' },
+  { name: '審判', emoji: '🔔', upright: '覚醒と復活の時。過去を振り返り、新しい目覚めを迎えましょう。大切な決断を下すタイミングです。天からの呼びかけに応えて。', reversed: '自己批判を手放して。過去に囚われず、今この瞬間を大切にしましょう。' },
+  { name: '世界', emoji: '🌍', upright: '完成と達成！一つのサイクルが完了し、新たなステージへ進みます。あなたの努力が実を結ぶ時です。おめでとうございます！', reversed: '完了間近ですが、もう少し。最後まで諦めず、仕上げに集中しましょう。ゴールはすぐそこです。' }
+];
+
+const spread = document.getElementById('tarot-spread');
+let selectedTarotCard = null;
+
+// Show 5 random face-down cards
+const shuffled = [...tarotCards].sort(() => Math.random() - 0.5);
+const displayCards = shuffled.slice(0, 5);
+
+displayCards.forEach((card, i) => {
+  const isReversed = Math.random() < 0.3;
+  const el = document.createElement('div');
+  el.className = 'tarot-card';
+  el.innerHTML = `
+    <div class="tarot-card-inner">
+      <div class="tarot-card-front"></div>
+      <div class="tarot-card-back">
+        <div class="card-emoji">${card.emoji}</div>
+        <div class="card-name">${card.name}${isReversed ? '（逆位置）' : ''}</div>
+      </div>
+    </div>
+  `;
+
+  el.addEventListener('click', () => {
+    if (selectedTarotCard !== null) return;
+    selectedTarotCard = i;
+    el.classList.add('flipped');
+    showTarotResult(card, isReversed);
+  });
+
+  spread.appendChild(el);
+});
+
+function showTarotResult(card, reversed) {
+  const resultBox = document.getElementById('tarot-result');
+  const reading = reversed ? card.reversed : card.upright;
+  const position = reversed ? '逆位置' : '正位置';
+
+  resultBox.innerHTML = `
+    <div class="result-title">${card.emoji} ${card.name}（${position}）</div>
+    <p style="text-align:center; font-size:0.9rem; color:var(--text-muted); margin-bottom:20px;">
+      ${reversed ? '逆位置は、このカードのエネルギーが滞っているか、内面に向かっていることを示します' : '正位置は、このカードの力が順調に発揮されていることを示します'}
+    </p>
+    <h3>カードからのメッセージ</h3>
+    <p>${reading}</p>
+    <div style="text-align:center; margin-top:24px;">
+      <button class="btn-primary" style="max-width:300px; margin:0 auto;" onclick="resetTarot()">もう一度引く</button>
+    </div>
+    <div class="share-section" style="margin-top:24px;">
+      <p>結果をシェアしよう</p>
+      <div class="share-buttons">
+        <a class="share-btn share-x" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`タロット占いで【${card.name}】${card.emoji}が出ました！\n${position}：${reading.substring(0, 50)}...\n\n${SITE_URL}\n#星月占い館 #タロット占い`)}" target="_blank">𝕏</a>
+        <a class="share-btn share-line-btn" href="https://social-plugins.line.me/lineit/share?text=${encodeURIComponent(`タロットで${card.name}(${position})が出たよ！${reading.substring(0, 50)}...\n${SITE_URL}`)}" target="_blank">L</a>
+      </div>
+    </div>
+  `;
+
+  resultBox.classList.add('show');
+  resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetTarot() {
+  selectedTarotCard = null;
+  const spread = document.getElementById('tarot-spread');
+  spread.innerHTML = '';
+  document.getElementById('tarot-result').classList.remove('show');
+  document.getElementById('tarot-result').style.display = 'none';
+
+  const newShuffled = [...tarotCards].sort(() => Math.random() - 0.5);
+  const newCards = newShuffled.slice(0, 5);
+  newCards.forEach((card, i) => {
+    const isReversed = Math.random() < 0.3;
+    const el = document.createElement('div');
+    el.className = 'tarot-card';
+    el.innerHTML = `
+      <div class="tarot-card-inner">
+        <div class="tarot-card-front"></div>
+        <div class="tarot-card-back">
+          <div class="card-emoji">${card.emoji}</div>
+          <div class="card-name">${card.name}${isReversed ? '（逆位置）' : ''}</div>
+        </div>
+      </div>
+    `;
+    el.addEventListener('click', () => {
+      if (selectedTarotCard !== null) return;
+      selectedTarotCard = i;
+      el.classList.add('flipped');
+      showTarotResult(card, isReversed);
+    });
+    spread.appendChild(el);
+  });
+}
+</script>
+
+</body>
+</html>
