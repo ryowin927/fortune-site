@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>星月占い館 | 無料タロット・数秘術であなたの運命を読み解く</title>
+  <title>スタリア | 無料タロット・数秘術であなたの運命を読み解く</title>
   <meta name="description" content="完全無料のタロット占い・数秘術占い。生年月日から運命数を算出し、今日の運勢やあなたの本質を詳しく鑑定します。">
   <meta name="keywords" content="占い,無料,タロット,数秘術,運勢,今日の運勢,恋愛運,仕事運">
-  <meta property="og:title" content="星月占い館 | 無料タロット・数秘術">
+  <meta property="og:title" content="スタリア | 無料タロット・数秘術">
   <meta property="og:description" content="完全無料のタロット占い・数秘術占い。あなたの運命を読み解きます。">
   <meta property="og:type" content="website">
   <meta property="og:image" content="ogp.png">
@@ -511,8 +511,8 @@
 
 <div class="container">
   <header>
-    <div class="logo">星月占い館</div>
-    <div class="logo-sub">HOSHIZUKI FORTUNE HOUSE</div>
+    <div class="logo">スタリア</div>
+    <div class="logo-sub">STARIA</div>
   </header>
 
   <!-- Navigation -->
@@ -615,7 +615,7 @@
   </div>
 
   <footer>
-    <p>&copy; 2026 星月占い館 All Rights Reserved.</p>
+    <p>&copy; 2026 スタリア All Rights Reserved.</p>
     <p style="margin-top:8px;">
       <a href="privacy.html">プライバシーポリシー</a> ｜
       <a href="privacy.html#4">免責事項</a> ｜
@@ -792,7 +792,7 @@ function showZodiacResult(name) {
   resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
   // Update share links
-  const text = encodeURIComponent(`${name}の今日の運勢は${starsHTML(fortune.overall)}！\n${fortune.message}\n\n${SITE_URL}\n#星月占い館 #今日の運勢 #${name}`);
+  const text = encodeURIComponent(`${name}の今日の運勢は${starsHTML(fortune.overall)}！\n${fortune.message}\n\n${SITE_URL}\n#スタリア #今日の運勢 #${name}`);
   document.getElementById('share-x-zodiac').href = `https://twitter.com/intent/tweet?text=${text}`;
   document.getElementById('share-line-zodiac').href = `https://social-plugins.line.me/lineit/share?text=${text}`;
 
@@ -961,7 +961,7 @@ document.getElementById('numerology-btn').addEventListener('click', () => {
     <div class="share-section" style="margin-top:24px;">
       <p>結果をシェアしよう</p>
       <div class="share-buttons">
-        <a class="share-btn share-x" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`私の運命数は【${num}】${data.title}\n${data.traits.join('・')}\n\nあなたも無料で占ってみて！\n${SITE_URL}\n#星月占い館 #数秘術 #運命数${num}`)}" target="_blank">𝕏</a>
+        <a class="share-btn share-x" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`私の運命数は【${num}】${data.title}\n${data.traits.join('・')}\n\nあなたも無料で占ってみて！\n${SITE_URL}\n#スタリア #数秘術 #運命数${num}`)}" target="_blank">𝕏</a>
         <a class="share-btn share-line-btn" href="https://social-plugins.line.me/lineit/share?text=${encodeURIComponent(`私の運命数は【${num}】${data.title}！あなたも占ってみて！\n${SITE_URL}`)}" target="_blank">L</a>
       </div>
     </div>
@@ -1053,7 +1053,7 @@ function showTarotResult(card, reversed) {
     <div class="share-section" style="margin-top:24px;">
       <p>結果をシェアしよう</p>
       <div class="share-buttons">
-        <a class="share-btn share-x" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`タロット占いで【${card.name}】${card.emoji}が出ました！\n${position}：${reading.substring(0, 50)}...\n\n${SITE_URL}\n#星月占い館 #タロット占い`)}" target="_blank">𝕏</a>
+        <a class="share-btn share-x" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`タロット占いで【${card.name}】${card.emoji}が出ました！\n${position}：${reading.substring(0, 50)}...\n\n${SITE_URL}\n#スタリア #タロット占い`)}" target="_blank">𝕏</a>
         <a class="share-btn share-line-btn" href="https://social-plugins.line.me/lineit/share?text=${encodeURIComponent(`タロットで${card.name}(${position})が出たよ！${reading.substring(0, 50)}...\n${SITE_URL}`)}" target="_blank">L</a>
       </div>
     </div>
